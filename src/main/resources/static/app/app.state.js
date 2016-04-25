@@ -24,6 +24,23 @@
         	url:'/author',
         	templateUrl:'app/author/author.html'
         })
+        .state('authors.new',{
+        	parent:'authors',
+        	url:'/new',
+        	onEnter:['$state', '$uibModal', function($state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/author/author-dialog.html',
+                    controller: 'AuthorDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg'
+                }).result.then(function() {
+                    $state.go('authors', null, { reload: true });
+                }, function() {
+                    $state.go('authors');
+                });
+            }]
+        })
         ;
     }
 })();
